@@ -1,16 +1,21 @@
 ﻿using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using Wizard.Library.Model;
+using WizardSample.EventArguments;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace WizardSample
 {
-    public sealed partial class WizardComponent : UserControl
+    public partial class WizardComponent : UserControl
     {
+        private Dictionary<string, object> _data = new Dictionary<string, object>();
+
         public WizardComponent()
         {
             this.InitializeComponent();
@@ -25,6 +30,14 @@ namespace WizardSample
         // Using a DependencyProperty as the backing store for ConfigurationFile.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ConfigurationFileProperty =
             DependencyProperty.Register("ConfigurationFile", typeof(string), typeof(WizardComponent), new PropertyMetadata(string.Empty));
+
+        public event EventHandler<FormSubmittedEventArgs> FormSubmitted;
+
+        protected virtual void OnFormSubmitted(FormSubmittedEventArgs e)
+        {
+            EventHandler<FormSubmittedEventArgs> handler = FormSubmitted;
+            handler?.Invoke(this, e);
+        }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -55,13 +68,52 @@ namespace WizardSample
                 switch (component.Type)
                 {
                     case WizardComponentType.TextBlock:
+                        TextBlock textBlock = new TextBlock
+                        {
+                            Name = $"tbl{component.Label}",
+                            Text = component.Label,
+                            Tag = component.FieldName
+                        };
+                        WizardPanel.Children.Add(textBlock);
+
                         break;
                     case WizardComponentType.TextBox:
+                        TextBox textBox = new TextBox
+                        {
+                            Name = $"txt{component.Label}",
+                            PlaceholderText = component.Label,
+                            Tag = component.FieldName
+                        };
+                        WizardPanel.Children.Add(textBox);
                         break;
                     case WizardComponentType.Button:
+                        Button button = new Button
+                        {
+                            Name = $"btn{component.Label}",
+                            Content = component.Label,
+                            Tag = component.FieldName
+                        };
+                        button.Click += (obj, args) =>
+                        {
+                            PopulateInfo();
+                            OnFormSubmitted(new FormSubmittedEventArgs(_data));
+                        };
+
+                        WizardPanel.Children.Add(button);
                         break;
                     default:
                         break;
+                }
+            }
+        }
+
+        private void PopulateInfo()
+        {
+            foreach (var control in WizardPanel.Children)
+            {
+                if (control is TextBox textBox)
+                {
+                    _data.Add(textBox.Tag.ToString(), textBox.Text);
                 }
             }
         }

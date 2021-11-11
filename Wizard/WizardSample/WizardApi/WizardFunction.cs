@@ -31,7 +31,7 @@ namespace WizardApi
                 Components = new List<WizardComponent>
                 {
                     new WizardComponent { Label = "Name", Type = WizardComponentType.TextBlock },
-                    new WizardComponent { Label = "Name", Type = WizardComponentType.TextBox },
+                    new WizardComponent { Label = "Insert your name:", Type = WizardComponentType.TextBox, FieldName = "Name" },
                     new WizardComponent { Label = "Button", Type = WizardComponentType.Button }
                 }
             };

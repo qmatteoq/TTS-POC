@@ -7,6 +7,9 @@ namespace Wizard.Library.Model
         [JsonPropertyName("label")]
         public string Label { get; set; }
 
+        [JsonPropertyName("fieldName")]
+        public string FieldName { get; set; }
+
         [JsonPropertyName("type")]
         public WizardComponentType Type { get; set; }
     }
