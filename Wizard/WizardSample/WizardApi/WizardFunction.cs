@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Net;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -38,16 +36,8 @@ namespace WizardApi
                 }
             };
 
-            JsonSerializerOptions options = new JsonSerializerOptions
-            {
-                Converters =
-                {
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                }
-            };
-
-            var jsonString = JsonSerializer.Serialize(form, options);
-
+            var jsonString = WizardFormSerializer.Serialize(form);
+    
             return new OkObjectResult(jsonString);
         }
     }
