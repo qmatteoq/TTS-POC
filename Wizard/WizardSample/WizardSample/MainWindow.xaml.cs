@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using WizardSample.EventArguments;
@@ -25,7 +26,8 @@ namespace WizardSample
             {
                 Name = e.Data["Name"].ToString(),
                 Surname = e.Data["Surname"].ToString(),
-                Age = int.Parse(e.Data["Age"].ToString())
+                Age = int.Parse(e.Data["Age"].ToString()),
+                BirthDate = DateTimeOffset.Parse(e.Data["BirthDate"].ToString())
             };
 
             people.Add(person);

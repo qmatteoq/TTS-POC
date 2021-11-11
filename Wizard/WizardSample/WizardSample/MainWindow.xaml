@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        <components:WizardFormControl ConfigurationFile="https://wizardapi20211111155334.azurewebsites.net/api/WizardFunction"
+        <components:WizardFormControl ConfigurationFile="https://wizardapi20211111155334.azurewebsites.net/api/form"
                                       FormSubmitted="WizardComponent_FormSubmitted"
                                       SaveButtonText="Submit" />
 
@@ -20,7 +20,7 @@
                         <TextBlock Text="{x:Bind Name}" />
                         <TextBlock Text="{x:Bind Surname}" />
                         <TextBlock Text="{x:Bind Age}" />
-                        <TextBlock Text="{x:Bind BirthDate}" />
+                        <TextBlock Text="{x:Bind BirthDate.Date.ToShortDateString()}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

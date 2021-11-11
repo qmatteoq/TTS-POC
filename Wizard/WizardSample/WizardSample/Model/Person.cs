@@ -14,6 +14,6 @@ namespace WizardSample.Model
 
         public int Age { get; set; }
 
-        public string BirthDate { get; set; }
+        public DateTimeOffset BirthDate { get; set; }
     }
 }
