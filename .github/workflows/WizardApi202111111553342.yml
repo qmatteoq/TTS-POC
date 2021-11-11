@@ -5,10 +5,10 @@ on:
     - main
 env:
   AZURE_FUNCTIONAPP_NAME: WizardApi20211111155334
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: WizardApi/publish
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: Wizard/WizardSample/WizardApi/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: WizardApi
+  WORKING_DIRECTORY: Wizard/WizardSample/WizardApi
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
