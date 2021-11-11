@@ -2,14 +2,29 @@
     x:Class="WizardSample.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WizardSample"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:components="using:WizardSample.UserControls" xmlns:model="using:WizardSample.Model"
     mc:Ignorable="d">
 
     <StackPanel>
-        <local:WizardComponent ConfigurationFile="https://wizardapi20211111155334.azurewebsites.net/api/WizardFunction"
-                               FormSubmitted="WizardComponent_FormSubmitted"
-                               SaveButtonText="Submit" />
+        <components:WizardFormControl ConfigurationFile="https://wizardapi20211111155334.azurewebsites.net/api/WizardFunction"
+                                      FormSubmitted="WizardComponent_FormSubmitted"
+                                      SaveButtonText="Submit" />
+
+
+        <TextBlock Text="People" Margin="12" FontSize="24" />
+        <ListView x:Name="lstPeople">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Person">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Name}" />
+                        <TextBlock Text="{x:Bind Surname}" />
+                        <TextBlock Text="{x:Bind Age}" />
+                        <TextBlock Text="{x:Bind BirthDate}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
     </StackPanel>
 </Window>

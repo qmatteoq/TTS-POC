@@ -1,9 +1,8 @@
 ﻿using Microsoft.UI.Xaml;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using WizardSample.EventArguments;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using WizardSample.Model;
 
 namespace WizardSample
 {
@@ -12,17 +11,24 @@ namespace WizardSample
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private ObservableCollection<Person> people = new();
+
         public MainWindow()
         {
             this.InitializeComponent();
+            lstPeople.ItemsSource = people;
         }
 
         private void WizardComponent_FormSubmitted(object sender, FormSubmittedEventArgs e)
         {
-            foreach (var item in e.Data)
+            Person person = new Person
             {
-                Debug.WriteLine($"Key: {item.Key} - Value: {item.Value}");
-            }
+                Name = e.Data["Name"].ToString(),
+                Surname = e.Data["Surname"].ToString(),
+                Age = int.Parse(e.Data["Age"].ToString())
+            };
+
+            people.Add(person);
         }
     }
 }

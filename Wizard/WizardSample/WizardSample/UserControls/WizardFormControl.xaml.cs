@@ -7,16 +7,13 @@ using System.Net.Http;
 using Wizard.Library.Model;
 using WizardSample.EventArguments;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace WizardSample
+namespace WizardSample.UserControls
 {
-    public partial class WizardComponent : UserControl
+    public partial class WizardFormControl : UserControl
     {
         private Dictionary<string, object> _data = new Dictionary<string, object>();
 
-        public WizardComponent()
+        public WizardFormControl()
         {
             this.InitializeComponent();
         }
@@ -74,7 +71,7 @@ namespace WizardSample
                 FontWeight = FontWeights.Bold
             };
 
-            WizardPanel.Children.Add(header);
+            WizardContainer.Children.Add(header);
         }
 
         private void RenderComponents(WizardForm form)
@@ -97,10 +94,49 @@ namespace WizardSample
                             Tag = component.FieldName
                         };
 
-                        WizardPanel.Children.Add(textBlock);
-                        WizardPanel.Children.Add(textBox);
+                        WizardContainer.Children.Add(textBlock);
+                        WizardContainer.Children.Add(textBox);
 
-                        break;                  
+                        break;
+                    case WizardComponentType.Number:
+                        TextBlock numberBlock = new TextBlock
+                        {
+                            Name = $"tbl{component.Label}",
+                            Text = component.FieldName
+                        };
+
+                        NumberBox numberBox = new NumberBox
+                        {
+                            Text = component.Label,
+                            SmallChange = 1,
+                            LargeChange = 1,
+                            SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Inline,
+                            Tag = component.FieldName
+                        };
+
+                        WizardContainer.Children.Add(numberBlock);
+                        WizardContainer.Children.Add(numberBox);
+
+                        break;
+                    case WizardComponentType.Date:
+                        TextBlock dateBlock = new TextBlock
+                        {
+                            Name = $"tbl{component.Label}",
+                            Text = component.FieldName
+                        };
+
+                        DatePicker picker = new DatePicker
+                        {
+                            Name = $"dp{component.Label}",
+                            Tag = component.FieldName,
+                            Date = DateTimeOffset.Now
+                        };
+
+                        WizardContainer.Children.Add(dateBlock);
+                        WizardContainer.Children.Add(picker);
+
+                        break;
+
                     default:
                         break;
                 }
@@ -118,16 +154,25 @@ namespace WizardSample
                 OnFormSubmitted(new FormSubmittedEventArgs(_data));
             };
 
-            WizardPanel.Children.Add(button);
+            WizardContainer.Children.Add(button);
         }
 
         private void PopulateInfo()
         {
-            foreach (var control in WizardPanel.Children)
+            _data.Clear();
+            foreach (var control in WizardContainer.Children)
             {
                 if (control is TextBox textBox)
                 {
                     _data.Add(textBox.Tag.ToString(), textBox.Text);
+                }
+                if (control is NumberBox numberBox)
+                {
+                    _data.Add(numberBox.Tag.ToString(), numberBox.Text);
+                }
+                if (control is DatePicker datePicker)
+                {
+                    _data.Add(datePicker.Tag.ToString(), datePicker.SelectedDate);
                 }
             }
         }
