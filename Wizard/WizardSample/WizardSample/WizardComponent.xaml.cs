@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Text;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -9,11 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using WizardSample.Model;
+using Wizard.Library.Model;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -39,8 +41,35 @@ namespace WizardSample
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var json = await File.ReadAllTextAsync(ConfigurationFile);
-            var form = JsonSerializer.Deserialize<Form>(json);
+            HttpClient client = new HttpClient();
+            var json = await client.GetStringAsync(ConfigurationFile);
+            var form = JsonSerializer.Deserialize<WizardForm>(json);
+
+            RenderHeader(form);
+            RenderComponents(form);
+        }
+
+        private void RenderHeader(WizardForm form)
+        {
+            TextBlock header = new TextBlock
+            {
+                Text = form.Title,
+                FontSize = 24,
+                FontWeight = FontWeights.Bold
+            };
+
+            WizardPanel.Children.Add(header);
+        }
+
+        private void RenderComponents(WizardForm form)
+        {
+            foreach (var component in form.Components)
+            {
+                switch (component.Type)
+                {
+                    default:
+                }
+            }
         }
     }
 }

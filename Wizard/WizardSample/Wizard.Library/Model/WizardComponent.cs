@@ -8,6 +8,6 @@ namespace Wizard.Library.Model
         public string Label { get; set; }
 
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public WizardComponentType Type { get; set; }
     }
 }

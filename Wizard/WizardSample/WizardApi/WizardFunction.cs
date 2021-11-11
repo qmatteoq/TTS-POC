@@ -30,9 +30,9 @@ namespace WizardApi
                 Title = "This is my form",
                 Components = new List<WizardComponent>
                 {
-                    new WizardComponent { Label = "Name", Type = "textblock" },
-                    new WizardComponent { Label = "Name", Type = "textbox" },
-                    new WizardComponent { Label = "Button", Type = "button" }
+                    new WizardComponent { Label = "Name", Type = WizardComponentType.TextBlock },
+                    new WizardComponent { Label = "Name", Type = WizardComponentType.TextBox },
+                    new WizardComponent { Label = "Button", Type = WizardComponentType.Button }
                 }
             };
 
