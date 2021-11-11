@@ -10,6 +10,6 @@
     <StackPanel>
         <local:WizardComponent ConfigurationFile="https://wizardapi20211111155334.azurewebsites.net/api/WizardFunction"
                                FormSubmitted="WizardComponent_FormSubmitted"
-                               />
+                               SaveButtonText="Submit" />
     </StackPanel>
 </Window>

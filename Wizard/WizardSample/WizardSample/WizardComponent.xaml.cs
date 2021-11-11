@@ -21,6 +21,8 @@ namespace WizardSample
             this.InitializeComponent();
         }
 
+        #region Properties and events
+
         public string ConfigurationFile
         {
             get { return (string)GetValue(ConfigurationFileProperty); }
@@ -31,6 +33,18 @@ namespace WizardSample
         public static readonly DependencyProperty ConfigurationFileProperty =
             DependencyProperty.Register("ConfigurationFile", typeof(string), typeof(WizardComponent), new PropertyMetadata(string.Empty));
 
+
+        public string SaveButtonText
+        {
+            get { return (string)GetValue(SaveButtonTextProperty); }
+            set { SetValue(SaveButtonTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SaveButtonText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SaveButtonTextProperty =
+            DependencyProperty.Register("SaveButtonText", typeof(string), typeof(WizardComponent), new PropertyMetadata("Save"));
+
+
         public event EventHandler<FormSubmittedEventArgs> FormSubmitted;
 
         protected virtual void OnFormSubmitted(FormSubmittedEventArgs e)
@@ -38,6 +52,8 @@ namespace WizardSample
             EventHandler<FormSubmittedEventArgs> handler = FormSubmitted;
             handler?.Invoke(this, e);
         }
+
+        #endregion
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -67,44 +83,42 @@ namespace WizardSample
             {
                 switch (component.Type)
                 {
-                    case WizardComponentType.TextBlock:
+                    case WizardComponentType.Text:
                         TextBlock textBlock = new TextBlock
                         {
                             Name = $"tbl{component.Label}",
-                            Text = component.Label,
-                            Tag = component.FieldName
+                            Text = component.FieldName
                         };
-                        WizardPanel.Children.Add(textBlock);
 
-                        break;
-                    case WizardComponentType.TextBox:
                         TextBox textBox = new TextBox
                         {
                             Name = $"txt{component.Label}",
                             PlaceholderText = component.Label,
                             Tag = component.FieldName
                         };
-                        WizardPanel.Children.Add(textBox);
-                        break;
-                    case WizardComponentType.Button:
-                        Button button = new Button
-                        {
-                            Name = $"btn{component.Label}",
-                            Content = component.Label,
-                            Tag = component.FieldName
-                        };
-                        button.Click += (obj, args) =>
-                        {
-                            PopulateInfo();
-                            OnFormSubmitted(new FormSubmittedEventArgs(_data));
-                        };
 
-                        WizardPanel.Children.Add(button);
-                        break;
+                        WizardPanel.Children.Add(textBlock);
+                        WizardPanel.Children.Add(textBox);
+
+                        break;                  
                     default:
                         break;
                 }
             }
+
+            Button button = new Button
+            {
+                Name = "btnSubmit",
+                Content = SaveButtonText
+            };
+
+            button.Click += (obj, args) =>
+            {
+                PopulateInfo();
+                OnFormSubmitted(new FormSubmittedEventArgs(_data));
+            };
+
+            WizardPanel.Children.Add(button);
         }
 
         private void PopulateInfo()

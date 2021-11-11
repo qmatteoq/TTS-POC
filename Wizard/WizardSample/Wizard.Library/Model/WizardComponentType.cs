@@ -2,8 +2,8 @@
 {
     public enum WizardComponentType
     {
-        TextBlock,
-        TextBox,
-        Button
+        Text,
+        Number,
+        Date
     }
 }
