@@ -9,7 +9,6 @@ namespace Wizard.Library.Model
         public string Label { get; set; }
 
         [JsonPropertyName("type")]
-        [JsonConverter(typeof(StringEnumConverter))]
         public WizardComponentType Type { get; set; }
     }
 }
