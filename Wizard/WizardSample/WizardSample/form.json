@@ -1,0 +1,17 @@
+{
+  "title": "This is a form",
+  "components": [
+    {
+      "label": "Name",
+      "type": "textblock"
+    },
+    {
+      "label": "Name",
+      "type": "textbox"
+    },
+    {
+      "label": "Save",
+      "type": "button"
+    }
+  ]
+}
