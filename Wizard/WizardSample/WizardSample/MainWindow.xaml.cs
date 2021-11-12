@@ -1,9 +1,11 @@
 ﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using WizardSample.EventArguments;
 using WizardSample.Model;
+using WizardSample.Pages;
 
 namespace WizardSample
 {
@@ -12,25 +14,35 @@ namespace WizardSample
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private ObservableCollection<Person> people = new();
-
         public MainWindow()
         {
             this.InitializeComponent();
-            lstPeople.ItemsSource = people;
         }
 
-        private void WizardComponent_FormSubmitted(object sender, FormSubmittedEventArgs e)
+        private void NavigationView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            Person person = new Person
+            var itemContainer = args.InvokedItemContainer;
+            
+            FrameNavigationOptions navOptions = new FrameNavigationOptions();
+            navOptions.TransitionInfoOverride = args.RecommendedNavigationTransitionInfo;
+            Type pageType = typeof(CustomersPage);
+            
+            if (itemContainer.Tag.ToString() == "Customers")
             {
-                Name = e.Data["Name"].ToString(),
-                Surname = e.Data["Surname"].ToString(),
-                Age = int.Parse(e.Data["Age"].ToString()),
-                BirthDate = DateTimeOffset.Parse(e.Data["BirthDate"].ToString())
-            };
+                pageType = typeof(CustomersPage);
+            }
+            else if (itemContainer.Tag.ToString() == "Orders")
+            {
+                pageType = typeof(OrdersPage);
+            }
 
-            people.Add(person);
+            ContentFrame.NavigateToType(pageType, null, navOptions);
+        }
+
+        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
+        {
+            Type pageType = typeof(CustomersPage);
+            ContentFrame.NavigateToType(pageType, null, null);
         }
     }
 }

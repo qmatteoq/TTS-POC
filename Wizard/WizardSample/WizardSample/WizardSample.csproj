@@ -12,6 +12,8 @@
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Pages\CustomersPage.xaml" />
+    <None Remove="Pages\OrdersPage.xaml" />
     <None Remove="UserControls\WizardFormControl.xaml" />
   </ItemGroup>
 
@@ -41,9 +43,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Pages\OrdersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Controls\WizardFormControl.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\CustomersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 </Project>
