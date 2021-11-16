@@ -1,10 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using WizardSample.EventArguments;
-using WizardSample.Model;
 using WizardSample.Pages;
 
 namespace WizardSample
@@ -30,13 +27,21 @@ namespace WizardSample
             if (itemContainer.Tag.ToString() == "Customers")
             {
                 pageType = typeof(CustomersPage);
+                ContentFrame.NavigateToType(pageType, null, navOptions);
             }
             else if (itemContainer.Tag.ToString() == "Orders")
             {
                 pageType = typeof(OrdersPage);
+                ContentFrame.NavigateToType(pageType, null, navOptions);
             }
+            else if (itemContainer.Tag.ToString() == "3DModel")
+            {
+                string location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                int index = location.LastIndexOf("\\WizardSample\\");
+                string source = $"{location.Substring(0, index)}\\3dModelHelloWorld\\3dModelHelloWorld.exe";
 
-            ContentFrame.NavigateToType(pageType, null, navOptions);
+                Process.Start(source);
+            }
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)

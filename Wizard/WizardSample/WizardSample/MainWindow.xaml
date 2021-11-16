@@ -11,6 +11,7 @@
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Customers" Tag="Customers" />
             <NavigationViewItem Content="Orders" Tag="Orders" />
+            <NavigationViewItem Content="3D Model" Tag="3DModel" />
         </NavigationView.MenuItems>
         <Frame x:Name="ContentFrame" />
     </NavigationView>

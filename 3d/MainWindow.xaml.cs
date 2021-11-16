@@ -30,7 +30,12 @@ namespace _3dModelHelloWorld
             InitializeComponent();
 
             ModelVisual3D device3D = new ModelVisual3D();
-            device3D.Content = Display3d(MODEL_PATH);
+
+            string location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            int index = location.LastIndexOf("\\");
+            string source = $"{location.Substring(0, index)}\\{MODEL_PATH}";
+
+            device3D.Content = Display3d(source);
             // Add to view port
             viewPort3d.Children.Add(device3D);
         }
